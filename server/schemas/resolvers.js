@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Book } = require('../models');
 // import sign token function from auth
 const { signToken } = require('../utils/auth');
 
@@ -15,6 +15,7 @@ const resolvers = {
 },
 
 Mutation: {
+
     addUser: async (parent, { username, email, password }) => {
         const user = await User.create({ username, email, password });
 
@@ -22,6 +23,23 @@ Mutation: {
         const token = signToken(user);
         //auth type
         return { token, user };
+      },
+               //CHECK
+      loginUser: async(parent, { username, password })=> {
+        const user = await User.findOne({ email });
+  
+        if(!user) {
+          throw new AuthenticationError('No user found with this email address');
+        }
+  
+        const correctPassword = await user.isCorrectPassword(password);
+  
+        if(!correctPassword) {
+          throw new AuthenticationError('The password you entered is incorrect! Please try again.');
+        }
+        const token = signToken(user);
+  
+        return { token, user }
       },
 
     saveBook: async(parent, args, context) => {
@@ -36,9 +54,21 @@ Mutation: {
         console.log(err);
         throw new AuthenticationError(err.message);
       }
-
+    },
+                //CHECK
+    deleteBook: async(parent, { user, params }, context) => {
+      if (context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: user._id },
+          { $pull: { savedBooks: { bookId: params.bookId } } },
+          { new: true }
+        );
+      return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
     }
-
+             
+ 
 },
 
 
