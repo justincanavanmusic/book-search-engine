@@ -19,7 +19,6 @@ Mutation: {
     addUser: async (parent, { username, email, password }) => {
         const user = await User.create({ username, email, password });
 
-        //do i need? how do i return an auth type?
         const token = signToken(user);
         //auth type
         return { token, user };
@@ -56,11 +55,11 @@ Mutation: {
       }
     },
                 //CHECK
-    deleteBook: async(parent, { user, params }, context) => {
+    removeBook: async(parent, args, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
-          { _id: user._id },
-          { $pull: { savedBooks: { bookId: params.bookId } } },
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId: args.bookId } } },
           { new: true }
         );
       return updatedUser;
