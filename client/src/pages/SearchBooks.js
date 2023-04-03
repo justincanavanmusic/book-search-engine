@@ -15,8 +15,14 @@ import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
-  // create state for holding our search field data
+ 
+
+  // console.log(searchedBooks);  //returns an array of 10 books that come up from your search
+
   const [searchInput, setSearchInput] = useState('');
+  // console.log(searchInput) 
+  //returns onChange what you type in main page search engine
+
 
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
@@ -119,23 +125,23 @@ const SearchBooks = () => {
             : 'Search for a book to begin'}
         </h2>
         <Row>
-          {searchedBooks.map((book) => {
+          {searchedBooks.map((oneBook) => {
             return (
               <Col md="4">
-                <Card key={book.bookId} border='dark'>
-                  {book.image ? (
-                    <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
+                <Card key={oneBook.bookId} border='dark'>
+                  {oneBook.image ? (
+                    <Card.Img src={oneBook.image} alt={`The cover for ${oneBook.title}`} variant='top' />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
+                    <Card.Title>{oneBook.title}</Card.Title>
+                    <p className='small'>Authors: {oneBook.authors}</p>
+                    <Card.Text>{oneBook.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
-                        disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
+                        disabled={savedBookIds?.some((savedBookId) => savedBookId === oneBook.bookId)}
                         className='btn-block btn-info'
-                        onClick={() => handleSaveBook(book.bookId)}>
-                        {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
+                        onClick={() => handleSaveBook(oneBook.bookId)}>
+                        {savedBookIds?.some((savedBookId) => savedBookId === oneBook.bookId)
                           ? 'This book has already been saved!'
                           : 'Save this Book!'}
                       </Button>
