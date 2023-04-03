@@ -24,6 +24,8 @@ const SavedBooks = () => {
 
   const { loading, data } = useQuery(GET_ME)
 
+
+  //if data exists and has a "me" property, value is data.me, else its an empty ovbject
   const userData = data?.me || {}
 
   // use this to determine if `useEffect()` hook needs to run again
