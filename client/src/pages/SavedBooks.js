@@ -26,7 +26,8 @@ const SavedBooks = () => {
 
 
   //if data exists and has a "me" property, value is data.me, else its an empty ovbject
-  const userData = data?.me || {}
+  const userData = data?.me || {};
+
 
   // use this to determine if `useEffect()` hook needs to run again
   // const userDataLength = Object.keys(userData).length;
@@ -79,7 +80,7 @@ const SavedBooks = () => {
       // const updatedUser = await response.json();
       // setUserData(updatedUser);
       // upon success, remove book's id from localStorage
-      removeBookId(bookId);
+      removeBook(bookId);
     } catch (err) {
       console.error(err);
     }

@@ -33,7 +33,6 @@ const LoginForm = () => {
     }
 
     try { 
-
       // const response = await loginUser(userFormData);
 
       // if (!response.ok) {
@@ -44,7 +43,6 @@ const LoginForm = () => {
       // console.log(user);
      
       const { data } = await login({
-        
         variables: { ...userFormData }
      
       });
