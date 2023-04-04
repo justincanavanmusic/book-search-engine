@@ -31,6 +31,8 @@ const SearchBooks = () => {
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
+  // console.log(savedBookIds);
+
   // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
   // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
   useEffect(() => {
@@ -74,7 +76,7 @@ const SearchBooks = () => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
 
-    console.log(bookToSave);
+    // console.log(bookToSave);
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -91,7 +93,7 @@ const SearchBooks = () => {
       // }
 
       const { data } = await saveBook({
-        variables: { bookData : bookToSave }
+        variables: { ...bookToSave }
       })
 
       // if book successfully saves to user's account, save book id to state
@@ -144,7 +146,7 @@ const SearchBooks = () => {
                   ) : null}
                   <Card.Body>
                     <Card.Title>{oneBook.title}</Card.Title>
-                    <p className='small'>Authors: {oneBook.authors}</p>
+                    <p className='small'>{oneBook.authors.length===1 ? "Author: " : "Authors: "} {oneBook.authors.join(', ')}</p>
                     <Card.Text>{oneBook.description}</Card.Text>
                     {Auth.loggedIn() && (
                       <Button
